@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
-import { ApplicationError } from '@/protocols';
+import { ApplicationError, RequestError } from '@/protocols';
 
 export function handleApplicationErrors(
-  err: ApplicationError | Error,
+  err: ApplicationError | Error | RequestError,
   _req: Request,
   res: Response,
   _next: NextFunction,
@@ -34,6 +34,12 @@ export function handleApplicationErrors(
 
   if (err.name === 'NotFoundError') {
     return res.status(httpStatus.NOT_FOUND).send({
+      message: err.message,
+    });
+  }
+
+  if (err.name === 'PaymentRequiredError') {
+    return res.status(httpStatus.PAYMENT_REQUIRED).send({
       message: err.message,
     });
   }
