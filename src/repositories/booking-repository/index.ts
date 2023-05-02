@@ -19,7 +19,17 @@ async function createBooking(roomId: number, userId: number) {
   return booking.id;
 }
 
+async function findBookingByUserId(userId: number) {
+  const booking = await prisma.booking.findFirst({
+    where: {
+      userId: userId,
+    },
+  });
+  return booking.id;
+}
+
 export default {
   findBookingByRoomId,
   createBooking,
+  findBookingByUserId,
 };

@@ -1,3 +1,4 @@
+import { Booking } from '@prisma/client';
 import enrollmentRepository from '@/repositories/enrollment-repository';
 import ticketsRepository from '@/repositories/tickets-repository';
 import hotelRepository from '@/repositories/hotels-repository';
@@ -33,6 +34,16 @@ async function createBooking(roomId: number, userId: number): Promise<{ bookingI
   return { bookingId };
 }
 
-const bookingService = { createBooking };
+async function findBooking(userId: number): Promise<Booking> {
+  const booking = await bookingRepository.findBookingByUserId(userId);
+
+  if (!booking) {
+    throw notFoundError('No booking found for this user!');
+  }
+
+  return booking;
+}
+
+const bookingService = { createBooking, findBooking };
 
 export default bookingService;
