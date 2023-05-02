@@ -28,8 +28,17 @@ async function findBookingByUserId(userId: number) {
   return booking.id;
 }
 
+async function findBookingById(bookingId: number) {
+  return prisma.booking.findFirst({
+    where: {
+      id: bookingId,
+    },
+  });
+}
+
 export default {
   findBookingByRoomId,
   createBooking,
   findBookingByUserId,
+  findBookingById,
 };

@@ -29,3 +29,17 @@ export async function createBooking(req: AuthenticatedRequest, res: Response, ne
     next(e);
   }
 }
+
+export async function updateBooking(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<Response> {
+  const { userId } = req;
+  const { roomId } = req.body as { roomId: number };
+  const { bookingId } = req.params;
+  try {
+    const { id: bookingIdFromUpdatedRoom } = await bookingService.updateBooking(roomId, userId, +bookingId);
+    return res.status(httpStatus.OK).send({
+      bookingId: bookingIdFromUpdatedRoom,
+    });
+  } catch (e) {
+    next(e);
+  }
+}
