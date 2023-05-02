@@ -5,7 +5,7 @@ import httpStatus from 'http-status';
 import * as jwt from 'jsonwebtoken';
 import supertest from 'supertest';
 
-import { createEnrollmentWithAddress, createUser, createhAddressWithCEP } from '../factories';
+import { createEnrollmentWithAddress, createUser, createAddressWithCEP } from '../factories';
 import { cleanDb, generateValidToken } from '../helpers';
 import { prisma } from '@/config';
 import app, { init } from '@/app';
@@ -82,7 +82,7 @@ describe('GET /enrollments', () => {
 describe('GET /enrollments/cep', () => {
   it('should respond with status 200 when CEP is valid', async () => {
     const response = await server.get('/enrollments/cep?cep=04538132');
-    const address = createhAddressWithCEP();
+    const address = createAddressWithCEP();
 
     expect(response.status).toBe(httpStatus.OK);
     expect(response.body).toEqual(address);
